@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <style type="text/css">
+        body {
+            background: yellow;
+        }
+    </style>
+    <script type="text/javascript">
+"use strict";
+//----------------------------------------------------------------------
+//number.toString(16); //n進数に変換
+//Number.MAX_VALUE
+//Number.MIN_VALUE
+//Math.ceil(n); //小数点以下を切り捨て
+//Math.floor(n); //小数点以下を切り上げ
+//Math.round(n); //小数点以下を四捨五入
+//Math.pow(n, m); //n の m 乗。
+//----------------------------------------------------------------------
+//let char = string.charAt(n);
+//let subString = string.substring(from [, to]); //to-1
+//let subString = string.substr(from [, len];)
+//let subString = string.slice(from [, to]); //to-1：マイナスは末尾から
+//let newbString = string.trim();
+//let array = string.split([sep [, limit]]);
+//let newbString = string.concat(string2);
+//let newbString = string.replace(regexp, newString);
+//let newbString = string.toUpperCase();
+//let newbString = string.toLowerCase();
+//let n = string.indexOf(key [, from]); //見つからない場合は -1
+//let n = string.search(regexp); //見つからない場合は -1
+//let n = string.lastIndexOf(key [, from]); //見つからない場合は -1
+//let newbString = string.match(regexp); //マッチしなかった時はnullを返す
+//----------------------------------------------------------------------
+//for (let n = 0; n < N; n++) {}
+//for (let n = 1; n <= N; n++) {}
+//if () {}
+//if () {} else {}
+//if () {} else if () {} else {}
+//while (true) {}
+//for (let index in array) {}
+//for (let value of array) {}
+//array.forEach(function(value, index, array) {});
+//let newArray = array.map(function(value) { return value; });
+//let array.every(function(value, index, array) { return true; }); //all true
+//let array.some(function(value, index, array) { return true; }); //some true
+//array.sort((a, b) => a - b); //asc
+//array.sort(function(a, b) { return b - a; }); //desc
+//let ret = array.reduce((ac, value, index, array) => ac + value, 0);
+//----------------------------------------------------------------------
+//let array = new Array(N).fill(0);
+//let xyArray = new Array(X).fill(0).map(() => new Array(Y).fill(0)); //二次元配列
+//let top = array.shift(); //先頭を削除
+//let last = array.pop(); //最後を削除
+//array.push(e1, e2, ...); //最後に追加
+//array.unshift(e1, e2, ...); //先頭に追加
+//let newArray = array.slice(start [, end]); //startからend-1までの配列
+//let newArray = array.concat(array2, ...); //元のarrayは変更なし
+//let str = array.join(','); //文字連結
+//array.reverse();
+//----------------------------------------------------------------------
+//function func() { return xx; };
+//function() { return xx; }
+//const func = (a, b) => a + b; //func(a, b) { return a + b; }
+//----------------------------------------------------------------------
+
+// let lines = input.split("\n");
+// let nums = input.split("\n").map((v) => v - 0);
+// let Nx = lines[1].split(/\s/).map((v) => v - 0);
+// let a = parseInt(lines[0]);
+
+"use strict";
+function Main(input) {
+    let lines = input.split("\n");
+    let N = lines.shift() - 0;
+    let Ln = lines[0].split(/\s/).map((v) => v - 0);
+    Ln.sort((a, b) => b - a);
+    let max = Ln.shift();
+    let sum = Ln.reduce((ac, val) => ac + val, 0);
+
+    console.log(max < sum ? "Yes" : "No");
+}
+
+// Main(require("fs").readFileSync("/dev/stdin", "utf8"));
+
+
+function go() {
+    let stdin = document.getElementById("stdin")
+    Main(stdin.value);
+}
+
+</script>
+
+<body onload="go()">
+<div class="parent">
+<textarea id="stdin" cols="40" rows="10">
+4
+3 8 5 1
+</textarea><br/>
+<button onclick="go();">RUN</button>
+</div>
+</body>
+
+</html>
