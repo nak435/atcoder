@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<style type="text/css">
+body {
+    background: yellow;
+}
+</style>
+
+<script src="http://peterolson.github.io/BigInteger.js/BigInteger.min.js"></script>
+<script type="text/javascript">
+// https://www.npmjs.com/package/big-integer
+/*
+◆Constants
+bigInt.one      = bigInt(1)
+bigInt.zero     = bigInt(0)
+bigInt.minusOne = bigInt(-1)
+
+◆四則演算
+add(number)         bigInt(5).add(7) => 12
+plus(number)            Alias for the add method.
+subtract(number)    bigInt(3).subtract(5) => -2
+minus(number)          Alias for the subtract method.
+multiply(number)    bigInt(111).multiply(111) => 12321
+times(number)           Alias for the multiply method.
+divide(number)      bigInt(59).divide(5) => 11
+over(number)            Alias for the divide method.
+
+mod(number)     bigInt(59).mod(5) => 4
+remainder(number)       Alias for the mod method.
+modInv(mod)     bigInt(3).modInv(11) => 4     modのa,bが逆
+divmod(number)  bigInt(59).divmod(5) => {quotient: bigInt(11), remainder: bigInt(4) }
+isDivisibleBy(number)   bigInt(999).isDivisibleBy(333) => true    割切れる：true  割切れない：false
+
+
+◆論理演算
+and(number) bigInt(6).and(3) => 2
+or(number)  bigInt(13).or(10) => 15
+xor(number) bigInt(12).xor(5) => 9
+not()       bigInt(10).not() => -11
+shiftLeft(n)    bigInt(8).shiftLeft(2) => 32
+shiftRight(n)   bigInt(8).shiftRight(2) => 2
+
+◆比較関数
+compare(number) bigInt(5).compare(5) => 0       = 0   > 1   < -1
+compareAbs(number)  bigInt(5).compareAbs(-5) => 0
+compareTo(number)   Alias for the compare method.
+
+equals(number)      bigInt(5).equals(5) => true
+eq(number)              Alias for the equals method.
+notEquals(number)   bigInt(5).notEquals(5) => false
+neq(number)             Alias for the notEquals method.
+
+greater(number)     bigInt(5).greater(6) => false     > true   <= false
+greaterOrEquals(number) bigInt(5).greaterOrEquals(6) => false     >= true   < false
+gt(number)      Alias for the greater method.
+geq(number)     Alias for the greaterOrEquals method.
+
+lesser(number)  bigInt(5).lesser(6) => true    < true   >= false
+lesserOrEquals(number)  bigInt(5).lesserOrEquals(5) => true    <= true   > false
+lt(number)      Alias for the lesser method.
+leq(number)     Alias for the lesserOrEquals method.
+
+
+square()    bigInt(3).square() => 9
+abs()       bigInt(-45).abs() => 45
+pow(number)   bigInt(16).pow(16) => 18446744073709551616    べき乗
+
+max(a,b)    bigInt.max(77, 432) => 432
+min(a,b)    bigInt.min(77, 432) => 77
+randBetween(min, max)   bigInt.randBetween("-1e100", "1e100") => (for example) 8494907165436643479673097939554427056789510374838494147955756275846226209006506706784609314471378745
+
+Static Methods  gcd(a, b)    bigInt.gcd(42, 56) => 14    最大公約数
+Static Methods  lcm(a, b)    bigInt.lcm(21, 6) => 42     最小公倍数
+
+bitLength()   bigInt(5).bitLength() => 3 (since 5 is 101 in binary, which is three digits long)
+
+isEven()    bigInt(6).isEven() => true
+isOdd()     bigInt(13).isOdd() => true
+
+isNegative()    bigInt(-23).isNegative() => true
+isPositive()    bigInt(54).isPositive() => true
+
+isPrime()   bigInt(5).isPrime() => true     素数：true  素数でない：false
+isProbablePrime([iterations])  bigInt(5).isProbablePrime() => true    素数になる可能性が非常に高い場合：true、そうでない場合：false
+
+isUnit()    bigInt(5).isUnit() => false   Returns true if the number is 1 or -1, false otherwise.
+isZero()    bigInt("-0").isZero() => true   Return true if the number is 0 or -0, false otherwise.
+
+modPow(exp, mod)    bigInt(10).modPow(3, 30) => 10   ？？？
+
+next()          bigInt(6).next() => 7
+prev(number)    bigInt(6).prev() => 5
+
+toArray(radix)  Converts a bigInt into an object with the properties "value" and "isNegative." "Value" is an array of integers modulo the given radix. "isNegative" is a boolean that represents the sign of the result.
+    bigInt("1e9").toArray(10) => { value: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0], isNegative: false }
+    bigInt("1e9").toArray(16) => { value: [3, 11, 9, 10, 12, 10, 0, 0], isNegative: false }
+    bigInt(567890).toArray(100) => { value: [56, 78, 90], isNegative: false }
+    bigInt(12345).toArray(-10) => { value: [2, 8, 4, 6, 5], isNegative: false }
+    bigInt(-15).toArray(1) => { value: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], isNegative: true }
+    bigInt(-15).toArray(-1) => { value: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], isNegative: false }
+    bigInt(0).toArray(0) => { value: [0], isNegative: false }
+    bigInt(1).toArray(0) => Error: Cannot convert nonzero numbers to base 0.
+
+toJSNumber()    bigInt("18446744073709551616").toJSNumber() => 18446744073709552000
+
+Static Methods  fromArray(digits, base = 10, isNegative?)
+    bigInt.fromArray([1, 2, 3, 4, 5], 10) => 12345
+    bigInt.fromArray([1, 0, 0], 2, true) => -4
+
+isInstance(x)   Returns true if x is a BigInteger, false otherwise.
+
+*/
+
+</script>
+
+<script type="text/javascript">
+"use strict";
+/*
+----------------------------------------------------------------------
+number.toString(16); //n進数に変換
+Number.MAX_VALUE
+Number.MIN_VALUE
+Math.ceil(n); //小数点以下を切り上げ
+Math.floor(n); //小数点以下を切り捨て
+Math.round(n); //小数点以下を四捨五入
+Math.pow(n, m); //n の m 乗。
+----------------------------------------------------------------------
+let char = string.charAt(n);
+let subString = string.substring(from [, to]); //to-1
+let subString = string.substr(from [, len]);
+let subString = string.slice(from [, to]); //to-1：マイナスは末尾から
+let newbString = string.trim();
+let array = string.split([sep [, limit]]);
+let newbString = string.concat(string2);
+let newbString = string.replace(regexp, newString);
+let newbString = string.toUpperCase();
+let newbString = string.toLowerCase();
+let n = string.indexOf(key [, from]); //見つからない場合は -1
+let n = string.search(regexp); //見つからない場合は -1
+let n = string.lastIndexOf(key [, from]); //見つからない場合は -1
+let newbString = string.match(regexp); //マッチしなかった時はnullを返す
+----------------------------------------------------------------------
+array.forEach(function(value, index, array) {});
+let newArray = array.map(function(value) { return value; });
+let array.every(function(value, index, array) { return true; }); //all true
+let array.some(function(value, index, array) { return true; }); //some true
+array.sort((a, b) => a - b); //asc
+array.sort(function(a, b) { return b - a; }); //desc
+let ret = array.reduce((ac, value, index, array) => ac + value, 0);
+----------------------------------------------------------------------
+let array = new Array(N).fill(0);
+let xyArray = new Array(X).fill(0).map(() => new Array(Y).fill(0)); //二次元配列
+let top = array.shift(); //先頭を削除
+let last = array.pop(); //最後を削除
+array.push(e1, e2, ...); //最後に追加
+array.unshift(e1, e2, ...); //先頭に追加
+let newArray = array.slice(start [, end]); //startからend-1までの配列
+let newArray = array.concat(array2, ...); //元のarrayは変更なし
+let str = array.join(','); //文字連結
+array.reverse();
+----------------------------------------------------------------------
+function func() { return xx; };
+function() { return xx; }
+const func = (a, b) => a + b; //func(a, b) { return a + b; }
+----------------------------------------------------------------------
+for (let n = 0; n < N; n++) {}
+for (let n = 1; n <= N; n++) {}
+if () {}
+if () {} else {}
+if () {} else if () {} else {}
+while (true) {}
+for (let index in array) {}
+for (let value of array) {}
+----------------------------------------------------------------------
+*/
+// let lines = input.split("\n");
+// let nums = input.split("\n").map((v) => v - 0);
+// let Nx = lines[1].split(/\s/).map((v) => v - 0);
+// let a = parseInt(lines[0]);
+
+
+function go() {
+    let stdin = document.getElementById("stdin").value
+    eval(stdin);
+}
+
+console.log("Ready");
+
+</script>
+
+<body>
+<div class="parent">
+<textarea id="stdin" cols="40" rows="20">
+console.log("Hello world!");
+</textarea><br/>
+<button onclick="go();">RUN</button>
+<button onclick="location.reload();">RELOAD</button>
+</div>
+</body>
+
+</html>
