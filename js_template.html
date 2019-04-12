@@ -166,6 +166,7 @@ function() { return xx; }
 const func = (a, b) => a + b; //func(a, b) { return a + b; }
 ----------------------------------------------------------------------
 for (let n = 0; n < N; n++) {}
+for (let m = 0; m < M; m++) {}
 for (let n = 1; n <= N; n++) {}
 if () {}
 if () {} else {}
@@ -176,7 +177,9 @@ for (let value of array) {}
 ----------------------------------------------------------------------
 
     let lines = input.split("\n");
-    let N = input.split("\n").shift().trim().split(/\s/)[0] - 0;
+    let N = lines.shift().split(/\s/).map((v) => v - 0)[0];
+    let nm = lines.shift().split(/\s/).map((v) => v - 0);
+    let N = nm[0], M = nm[1];
     let nums = input.split("\n").map((v) => v - 0);
     let Nx = lines[1].split(/\s/).map((v) => v - 0);
     let a = parseInt(lines[0]);
@@ -195,7 +198,6 @@ function Main(input) {
 
     console.log(max < sum ? "Yes" : "No");
 }
-
 // Main(require("fs").readFileSync("/dev/stdin", "utf8"));
 
 
@@ -209,7 +211,7 @@ console.log("Ready");
 </script>
 
 <body>
-<div class="parent">
+<div class="parent"><br/><br/>
 <textarea id="stdin" cols="40" rows="10">
 4
 3 8 5 1
