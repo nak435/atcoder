@@ -198,7 +198,7 @@ function Main(input) {
 
     console.log(max < sum ? "Yes" : "No");
 }
-// Main(require("fs").readFileSync("/dev/stdin", "utf8"));
+if (typeof window == "undefined") Main(require("fs").readFileSync("/dev/stdin", "utf8"));
 
 
 function go() {
