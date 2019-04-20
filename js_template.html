@@ -189,15 +189,15 @@ for (let value of array) {}
 
 "use strict";
 function Main(input) {
-    let lines = input.split("\n");
-    let N = lines.shift() - 0;
-    let Ln = lines[0].split(/\s/).map((v) => v - 0);
+    let cin = new Inputer(input);
+    let N = cin.getInt();
+    let Ln = cin.getIntArray(N);
     Ln.sort((a, b) => b - a);
     let max = Ln.shift();
     let sum = Ln.reduce((ac, val) => ac + val, 0);
-
     console.log(max < sum ? "Yes" : "No");
 }
+class Inputer{constructor(t){this.cnt=0,this.items=t.split(/\n|\s/)}getInt(){return this.items[this.cnt++]-0}getIntArray(t){let r=new Array(t);for(let e=0;e<t;e++)r[e]=this.getInt();return r}getStr(){return this.items[this.cnt++]}getStrArray(t){let r=new Array(t);for(let e=0;e<t;e++)r[e]=this.getStr();return r}}
 if (typeof window == "undefined") Main(require("fs").readFileSync("/dev/stdin", "utf8"));
 
 
@@ -211,7 +211,7 @@ console.log("Ready");
 </script>
 
 <body>
-<div class="parent"><br/><br/>
+<div class="parent"><br/>
 <textarea id="stdin" cols="40" rows="10">
 4
 3 8 5 1
