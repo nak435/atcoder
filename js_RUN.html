@@ -121,6 +121,7 @@ function go() {
     let stdin = document.getElementById("stdin").value
     eval(stdin);
 }
+function clearStdin() { document.getElementById("stdin").value = "" }
 
 console.log("Ready");
 
@@ -133,6 +134,7 @@ console.log("Hello world!");
 </textarea><br/>
 <button onclick="go();">RUN</button>
 <button onclick="location.reload();">RELOAD</button>
+<button onclick="clearStdin();">CLEAR</button>
 </div>
 </body>
 
