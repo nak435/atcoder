@@ -1,20 +1,25 @@
-//最小公倍数
-function lcm(a) {
-    var g = (n, m) => m ? g(m, n % m) : n;
-    var l = (n, m) => n * m / g(n, m);
-    var ans = a[0];
-    for (var i = 1; i < a.length; i++) {
-        ans = l(ans, a[i]);
-    }
-    return ans;
-} 
-
 //最大公約数
-function gcd(a) {
-    var f = (a, b) => b ? f(b, a % b) : a;
-    var ans = a[0];
-    for (var i = 1; i < a.length; i++) {
-        ans = f(ans, a[i]); 
+const gcd = (a, b) => b ? gcd(b, a % b) : a;
+//最小公倍数（gcd版）
+const lcm = (a, b) => a * b / gcd(a, b);
+
+//最大公約数（配列版）
+function gcd(v) {
+    const g = (a, b) => b ? g(b, a % b) : a;
+    let r = v[0];
+    for (let i = 1; i < v.length; i++) {
+        r = g(r, v[i]); 
     }
-    return ans;
+    return r;
 }
+
+//最小公倍数（配列版）
+function lcm(v) {
+    const g = (a, b) => b ? g(b, a % b) : a;
+    const l = (a, b) => a * b / g(a, b);
+    let r = v[0];
+    for (let i = 1; i < v.length; i++) {
+        r = l(r, v[i]);
+    }
+    return r;
+} 
