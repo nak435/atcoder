@@ -23,3 +23,14 @@ function lcm(v) {
     }
     return r;
 } 
+
+//素因数分解
+function prime(v) {
+    let a = v, i, r = [];
+    for (let j = 2; j <= Math.floor(v / 2) && 1 < a; j += 1 + (j & 1)) {
+        for (i = 0; a % j == 0; i++) a = Math.floor(a / j);
+        if (i) r.push([j, i]);
+    }
+    if (r.length == 0) r.push([v, 1]);
+    return r;
+} //30=>2^1*3^1*5^1=>[[2,1],[3,1],[5,1]]
