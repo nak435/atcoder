@@ -30,6 +30,23 @@ cnt[S.charAt(n) - 'a']++;
 //package xxx;
 import java.util.*;
 public class Java_Template {
+    static int dfs(int i, int r, int sum) {  //dfs(0, K, 0);
+        if (r == 0) {
+            int cnt = 0;
+            while (sum > 0) {
+                int s = sum % 10;
+                if (s >= 5) cnt += (s - 5) + 1;
+                else cnt += s;
+                sum /= 10;
+            }
+            return cnt;
+        }
+        if (i == N) return Integer.MAX_VALUE;
+
+        int use    = dfs(i + 1, r - 1, sum + A[i]);
+        int notuse = dfs(i + 1, r    , sum);
+        return Math.min(use, notuse);
+    }
 
     static int lowerBound(int a[], int v) {
         int l = 0, r = a.length - 1;
