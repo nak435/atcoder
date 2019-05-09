@@ -24,7 +24,9 @@ Arrays.stream(array).sum();
 for (int n = 0; n < N; n++) { }
 string.charAt(n)
 cnt[S.charAt(n) - 'a']++;
-
+String.valueOf(string.charAt(n)) //char -> String
+char[] ch = string.toCharArray(); //String -> char[]
+String[] ch = string.split(""); //String -> string[0]
 
 */
 //package xxx;
