@@ -36,15 +36,15 @@ bool f = array.Any(v => true); //some true
 var obj = array.Select((value, index) => new { index, value }); //map?
 ----------------------------------------------------------------------
 var array = new Array(N).fill(0);
-var xyArray = new Array(X).fill(0).map(() => new Array(Y).fill(0)); //二次元配列
+var array[][] = new int[Y][X]; //二次元配列
 var top = array.shift(); //先頭を削除
 var last = array.pop(); //最後を削除
 array.push(e1, e2, ...); //最後に追加
 array.unshift(e1, e2, ...); //先頭に追加
 var newArray = array.slice(start [, end]); //startからend-1までの配列
 var newArray = array.concat(array2, ...); //元のarrayは変更なし
-var str = array.join(','); //文字連結
-array.reverse();
+var str = string.Join(", ", array); //文字連結
+array.Reverse();
 ----------------------------------------------------------------------
 public int func(int a, int b) { return a + b; }
 Func<int, int, int> func = (a, b) => a + b;
@@ -105,11 +105,20 @@ class Program {
         int[] array = { 3, 1, 5, 4, 2 };
         Array.Sort(array);
         Array.Reverse(array);
+        Console.Error.WriteLine("max: {0}", Max(array));
         Console.Error.WriteLine("[{0}]", string.Join(", ", array));
+
+        Console.WriteLine(
+            1.Action(v => Console.WriteLine(v))
+                .Calc(v => v * 2)
+                .Action(v => Console.WriteLine(v))
+                .Repeat(4, w => w * w)
+                .Action(w => Console.WriteLine(w))
+        );
 
     }
 
-    public T Max<T>(params T[] nums) where T: IComparable {
+    public static T Max<T>(params T[] nums) where T: IComparable {
         if(nums.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
         T max = nums[0];
         for(int i = 1; i < nums.Length; i++) {
@@ -117,7 +126,7 @@ class Program {
         }
         return max;
     }
-    public T Min<T>(params T[] nums) where T: IComparable {
+    public static T Min<T>(params T[] nums) where T: IComparable {
         if(nums.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
         T min = nums[0];
         for(int i = 1; i < nums.Length; i++) {
