@@ -105,7 +105,7 @@ class Program {
         int[] array = { 3, 1, 5, 4, 2 };
         Array.Sort(array);
         Array.Reverse(array);
-        Console.Error.WriteLine("max: {0}", Max(array));
+        Console.Error.WriteLine("max: {0}", array.Max());
         Console.Error.WriteLine("{0}", array.ToStringA(braces: "<>"));
 
 
@@ -120,7 +120,7 @@ class Program {
     } //Main
 
     //最大公約数
-    static Func<int, int, int> Gcd = (a, b) => b ? Gcd(b, a % b) : a;
+    static Func<int, int, int> Gcd = (a, b) => b != 0 ? Gcd(b, a % b) : a;
     //最小公倍数（gcd版）
     static Func<int, int, int> Lcm = (a, b) => a * b / Gcd(a, b);
     //順列
@@ -224,7 +224,7 @@ static Func<int> prime = (v) => {
 static class Extensions {
     public static string ToStringA<T>(this T[] array, string separator = ", ", string braces = "[]") {
         string bL = braces.Length > 0 ? braces[0].ToString() : "";
-        string rR = braces.Length > 1 ? braces[1].ToString() : "";
+        string bR = braces.Length > 1 ? braces[1].ToString() : "";
         return bL + String.Join(separator, array) + bR;
     }
     public static T Max<T>(this T[] array) where T: IComparable {
