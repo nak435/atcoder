@@ -26,7 +26,6 @@ var newArray = array.map(function(value) { return value; });
 array.sort((a, b) => a - b); //asc
 array.sort(function(a, b) { return b - a; }); //desc
 var ret = array.reduce((ac, value, index, array) => ac + value, 0);
-
 using System.Linq; //Enumerable
 int a = array.Max(); //using System.Linq;
 int a = array.Min(); //using System.Linq;
@@ -63,7 +62,6 @@ if () {} else if () {} else {}
 while (true) {}
 foreach (type value of array) {}
 ----------------------------------------------------------------------
-
 public class IntReverseComparer: IComparer {
     public int Compare(Object x, Object y) {
         return (int)y - (int)x;
@@ -74,11 +72,17 @@ int[] array = {3, 1, 5, 4, 2};
 Array.Sort(array);
 Array.Reverse(array);
 var array[][] = new int[Y][X];
-
 var ch = string.ToCharArray(); //string->char[]
 string.Join(", ", str)
 Console.WriteLine("{0} {1}", a0, a1);
 Console.Error.WriteLine("{0} {1}", a0, a1);
+
+Console.WriteLine(
+    1.Calc( x => x * 2)
+        .Action( x => Console.WriteLine(x))
+        .Repeat( 4, x => x * x)
+        .Action( x => Console.WriteLine(x));
+);
 
  */
 // #define LOCAL_ENVIRONMENT
@@ -91,22 +95,22 @@ class Program {
         var stdin = new System.IO.StreamReader("stdin.txt");
         System.Console.SetIn(stdin);
 #endif
-        Inputer cin = new Inputer();
-        var a = cin.GetInt();
-        int b = cin.GetInt(), c = cin.GetInt();
-        var s = cin.GetString();
+        SimpleScanner sc = new SimpleScanner();
+        var a = sc.NextInt();
+        int b = sc.NextInt(), c = sc.NextInt();
+        var s = sc.NextString();
         Console.WriteLine("{0} {1}", a + b + c, s);
-        int[][] x = cin.GetInt2Col(3);
+        int[][] x = sc.NextInt2Col(3);
 
         int[] array = { 3, 1, 5, 4, 2 };
-        Array.Sort(array, new IntReverseComparer());
+        Array.Sort(array);
         Array.Reverse(array);
         Console.Error.WriteLine("[{0}]", string.Join(", ", array));
 
     }
 
     public T Max<T>(params T[] nums) where T: IComparable {
-        if(nums.Length == 0) throw new IndexOutOfRangeException("要素は1つ以上であること！");
+        if(nums.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
         T max = nums[0];
         for(int i = 1; i < nums.Length; i++) {
             max = max.CompareTo(nums[i]) > 0 ? max : nums[i];
@@ -114,7 +118,7 @@ class Program {
         return max;
     }
     public T Min<T>(params T[] nums) where T: IComparable {
-        if(nums.Length == 0) throw new IndexOutOfRangeException("要素は1つ以上であること！");
+        if(nums.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
         T min = nums[0];
         for(int i = 1; i < nums.Length; i++) {
             min = min.CompareTo(nums[i]) < 0 ? min : nums[i];
@@ -122,15 +126,10 @@ class Program {
         return min;
     }
 
-    public class IntReverseComparer: IComparer {
-        public int Compare(Object x, Object y) {
-            return (int) y - (int) x;
-        }
-    }
-    public class Inputer {
+    public class SimpleScanner {
         private int cnt;
         private string[] items;
-        public Inputer() {
+        public SimpleScanner() {
             this.cnt = 0;
             var sb = new StringBuilder();
             var s = Console.ReadLine();
@@ -139,64 +138,85 @@ class Program {
                 s = Console.ReadLine();
             }
             this.items = sb.ToString().Split(' ');
+#if LOCAL_ENVIRONMENT
+Console.Error.WriteLine("SimpleScanner.items: [{0}]" , string.Join(", ", this.items));
+#endif
         }
         public void SetCnt(int n) { this.cnt = n; }
-        public int GetInt() {
+        public int NextInt() {
             return int.Parse(this.items[this.cnt++]);
         }
-        public long GetLong() {
+        public long NextLong() {
             return long.Parse(this.items[this.cnt++]);
         }
-        public string GetString() {
+        public string NextString() {
             return this.items[this.cnt++];
         }
-        public int[] GetIntArray(int n) {
+        public int[] NextIntArray(int n) {
             if (n < 1) throw new IndexOutOfRangeException("引数は1以上であること！");
-            var r = new int[n];
-            for (var i = 0; i < n; i++) r[i] = this.GetInt();
+            var result = new int[n];
+            for (var i = 0; i < n; i++) result[i] = this.NextInt();
 #if LOCAL_ENVIRONMENT
-            Console.Error.WriteLine("[{0}]", string.Join(", ", r));
+            Console.Error.WriteLine("[{0}]", string.Join(", ", result));
 #endif
-            return r;
+            return result;
         }
-        public long[] GetLongArray(int n) {
+        public long[] NextLongArray(int n) {
             if (n < 1) throw new IndexOutOfRangeException("引数は1以上であること！");
-            var r = new long[n];
-            for (var i = 0; i < n; i++) r[i] = this.GetLong();
+            var result = new long[n];
+            for (var i = 0; i < n; i++) result[i] = this.NextLong();
 #if LOCAL_ENVIRONMENT
-            Console.Error.WriteLine("[{0}]", string.Join(", ", r));
+            Console.Error.WriteLine("[{0}]", string.Join(", ", result));
 #endif
-            return r;
+            return result;
         }
-        public string[] GetStringArray(int n) {
+        public string[] NextStringArray(int n) {
             if (n < 1) throw new IndexOutOfRangeException("引数は1以上であること！");
-            var r = new string[n];
-            for (var i = 0; i < n; i++) r[i] = this.GetString();
+            var result = new string[n];
+            for (var i = 0; i < n; i++) result[i] = this.NextString();
 #if LOCAL_ENVIRONMENT
-            Console.Error.WriteLine("[{0}]", string.Join(", ", r));
+            Console.Error.WriteLine("[{0}]", string.Join(", ", result));
 #endif
-            return r;
+            return result;
         }
-        public int[][] GetInt2Col(int n) {
+        public int[][] NextInt2Col(int n) {
             const int M = 2;
             if (n < 1) throw new IndexOutOfRangeException("引数は1以上であること！");
-            int[][] r = new int[M][] {
+            int[][] result = new int[M][] {
                 new int[n],
                 new int[n],
             };
             for (var i = 0; i < n; i++) {
-                r[0][i] = this.GetInt();
-                r[1][i] = this.GetInt();
+                result[0][i] = this.NextInt();
+                result[1][i] = this.NextInt();
             }
 #if LOCAL_ENVIRONMENT
-            Console.Error.WriteLine("[");
+            Console.Error.WriteLine("NextInt2Col: [");
             for (var i = 0; i < M; i++)
-                Console.Error.WriteLine("  [{0}],", string.Join(", ", r[i]));
+                Console.Error.WriteLine("  [{0}],", string.Join(", ", result[i]));
             Console.Error.WriteLine("]");
 #endif
-            return r;
+            return result;
         }
-
     }
+}
 
+public static class ChainExtendMethoads {
+    // Calc :: T -> (T -> U) -> U
+    public static U Calc<T, U>(this T a,  Func<T, U> f) { return f(a); }
+    // Action :: T -> (T -> Void) -> T
+    public static T Action<T>(this T a, Action<T> f) { f(a); return a; }
+    // Action :: T -> (T -> U) -> T
+    public static T Action<T, U>(this T a, Func<T, U> f) { f(a); return a; }
+    // Repeat :: T -> int -> (T -> T) -> T
+    public static T Repeat<T>(this T a, int n, Func<T, T> f)
+    { return n > 0 ? f(a).Repeat(n - 1, f) : a; }
+    
+    // Left :: T -> (T -> U) -> T
+    public static T Left<T, U>(this T a, Func<T, U> f) { f(a); return a; }
+    // Right :: T -> (T -> U) -> T -> U
+    public static Func<T, U> Right<T, U>(this T a, Func<T, U> f) { f(a); return f; }
+    // All :: T -> (T -> U) -> (T, T -> U, U)
+    public static Tuple<T, Func<T, U>, U> All<T, U>(this T a, Func<T, U> f)
+    { return Tuple.Create(a, f, f(a)); }
 }
