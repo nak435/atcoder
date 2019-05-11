@@ -108,6 +108,8 @@ class Program {
         Console.Error.WriteLine("max: {0}", array.Max());
         Console.Error.WriteLine("{0}", array.ToStringA(braces: "<>"));
 
+        var t = Tuple.Create(0, 1, 2);
+        Console.WriteLine("{0}: {1}", t.GetType().Name, t.ToString());
 
         Console.WriteLine(
             1.Action(v => Console.WriteLine(v))
