@@ -78,10 +78,10 @@ Console.WriteLine("{0} {1}", a0, a1);
 Console.Error.WriteLine("{0} {1}", a0, a1);
 
 Console.WriteLine(
-    1.Calc( x => x * 2)
-        .Action( x => Console.WriteLine(x))
-        .Repeat( 4, x => x * x)
-        .Action( x => Console.WriteLine(x));
+    1.Calc(x => x * 2)
+        .Action(x => Console.WriteLine(x))
+        .Repeat(4, x => x * x)
+        .Action(x => Console.WriteLine(x))
 );
 
  */
@@ -106,7 +106,8 @@ class Program {
         Array.Sort(array);
         Array.Reverse(array);
         Console.Error.WriteLine("max: {0}", Max(array));
-        Console.Error.WriteLine("[{0}]", string.Join(", ", array));
+        Console.Error.WriteLine("{0}", array.ToStringA(braces: "<>"));
+
 
         Console.WriteLine(
             1.Action(v => Console.WriteLine(v))
@@ -116,25 +117,36 @@ class Program {
                 .Action(w => Console.WriteLine(w))
         );
 
-    }
+    } //Main
 
-    public static T Max<T>(params T[] nums) where T: IComparable {
-        if(nums.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
-        T max = nums[0];
-        for(int i = 1; i < nums.Length; i++) {
-            max = max.CompareTo(nums[i]) > 0 ? max : nums[i];
-        }
-        return max;
-    }
-    public static T Min<T>(params T[] nums) where T: IComparable {
-        if(nums.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
-        T min = nums[0];
-        for(int i = 1; i < nums.Length; i++) {
-            min = min.CompareTo(nums[i]) < 0 ? min : nums[i];
-        }
-        return min;
-    }
+    //最大公約数
+    static Func<int, int, int> Gcd = (a, b) => b ? Gcd(b, a % b) : a;
+    //最小公倍数（gcd版）
+    static Func<int, int, int> Lcm = (a, b) => a * b / Gcd(a, b);
+    //順列
+    static Func<int, int, int> Permutation = (n, r) => {
+        var result = 1;
+        for (var m = n; r > 0; m--, r--) result *= m;
+        return result;
+    };
+    //組合せ
+    static Func<int, int, int> Combination = (n, r) => {
+        var result = Permutation(n, r);
+        for (; r > 0; r--) result /= r;
+        return result;
+    };
 
+/*
+static Func<int> prime = (v) => {
+    var a = v, i, r = [];
+    for (var j = 2; j <= Math.floor(v / 2) && 1 < a; j += 1 + (j & 1)) {
+        for (i = 0; a % j == 0; i++) a = Math.floor(a / j);
+        if (i) r.push([j, i]);
+    }
+    if (r.length == 0) r.push([v, 1]);
+    return r;
+} //30=>2^1*3^1*5^1=>[[2,1],[3,1],[5,1]]
+*/
     public class SimpleScanner {
         private int cnt;
         private string[] items;
@@ -148,7 +160,7 @@ class Program {
             }
             this.items = sb.ToString().Split(' ');
 #if LOCAL_ENVIRONMENT
-Console.Error.WriteLine("SimpleScanner.items: [{0}]" , string.Join(", ", this.items));
+    Console.Error.WriteLine("SimpleScanner.items: {0}" , this.items.ToStringA());
 #endif
         }
         public void SetCnt(int n) { this.cnt = n; }
@@ -166,7 +178,7 @@ Console.Error.WriteLine("SimpleScanner.items: [{0}]" , string.Join(", ", this.it
             var result = new int[n];
             for (var i = 0; i < n; i++) result[i] = this.NextInt();
 #if LOCAL_ENVIRONMENT
-            Console.Error.WriteLine("[{0}]", string.Join(", ", result));
+            Console.Error.WriteLine("{0}", result.ToStringA());
 #endif
             return result;
         }
@@ -175,7 +187,7 @@ Console.Error.WriteLine("SimpleScanner.items: [{0}]" , string.Join(", ", this.it
             var result = new long[n];
             for (var i = 0; i < n; i++) result[i] = this.NextLong();
 #if LOCAL_ENVIRONMENT
-            Console.Error.WriteLine("[{0}]", string.Join(", ", result));
+            Console.Error.WriteLine("{0}", result.ToStringA());
 #endif
             return result;
         }
@@ -184,7 +196,7 @@ Console.Error.WriteLine("SimpleScanner.items: [{0}]" , string.Join(", ", this.it
             var result = new string[n];
             for (var i = 0; i < n; i++) result[i] = this.NextString();
 #if LOCAL_ENVIRONMENT
-            Console.Error.WriteLine("[{0}]", string.Join(", ", result));
+            Console.Error.WriteLine("{0}", result.ToStringA());
 #endif
             return result;
         }
@@ -202,15 +214,42 @@ Console.Error.WriteLine("SimpleScanner.items: [{0}]" , string.Join(", ", this.it
 #if LOCAL_ENVIRONMENT
             Console.Error.WriteLine("NextInt2Col: [");
             for (var i = 0; i < M; i++)
-                Console.Error.WriteLine("  [{0}],", string.Join(", ", result[i]));
+                Console.Error.WriteLine("  {0},", result[i].ToStringA());
             Console.Error.WriteLine("]");
 #endif
             return result;
         }
     }
 }
-
-public static class ChainExtendMethoads {
+static class Extensions {
+    public static string ToStringA<T>(this T[] array, string separator = ", ", string braces = "[]") {
+        string bL = braces.Length > 0 ? braces[0].ToString() : "";
+        string rR = braces.Length > 1 ? braces[1].ToString() : "";
+        return bL + String.Join(separator, array) + bR;
+    }
+    public static T Max<T>(this T[] array) where T: IComparable {
+        if(array.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
+        T max = array[0];
+        for(int i = 1; i < array.Length; i++) {
+            max = max.CompareTo(array[i]) > 0 ? max : array[i];
+        }
+        return max;
+    }
+    public static T Min<T>(this T[] array) where T: IComparable {
+        if(array.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
+        T min = array[0];
+        for(int i = 1; i < array.Length; i++) {
+            min = min.CompareTo(array[i]) < 0 ? min : array[i];
+        }
+        return min;
+    }
+    public static T[] SortDesc<T>(this T[] array) {
+        Array.Sort(array);
+        Array.Reverse(array);
+        return array;
+    }
+}
+public static class ChainExtensions {
     // Calc :: T -> (T -> U) -> U
     public static U Calc<T, U>(this T a,  Func<T, U> f) { return f(a); }
     // Action :: T -> (T -> Void) -> T
