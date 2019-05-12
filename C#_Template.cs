@@ -256,7 +256,7 @@ static class Extensions {
         string bR = braces.Length > 1 ? braces[1].ToString() : "";
         return bL + String.Join(separator, array) + bR;
     }
-    public static T Max<T>(this T[] array) where T: IComparable {
+    public static T Max<T>(this T[] array) where T: IComparable { // this->params
         if(array.Length < 1) throw new IndexOutOfRangeException("要素は1つ以上であること！");
         T max = array[0];
         for(int i = 1; i < array.Length; i++) {
