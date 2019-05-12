@@ -69,9 +69,11 @@ public class IntReverseComparer: IComparer {
 }
 Array.Sort(array, new IntReverseComparer());
 int[] array = {3, 1, 5, 4, 2};
+var array = Enumerable.Range(0, 4).ToArray(); //  {0, 1, 2, 3}
+var array = Enumerable.Repeat(-1, 4).ToArray(); // → { -1, -1, -1, -1}
 Array.Sort(array);
 Array.Reverse(array);
-var array[][] = new int[Y][X];
+int[][] array = new int[Y][X];
 var ch = string.ToCharArray(); //string->char[]
 string.Join(", ", str)
 Console.WriteLine("{0} {1}", a0, a1);
@@ -103,7 +105,8 @@ class Program {
             __cnt++;
         }
         if (__cnt > 0) {
-            Console.WriteLine("Eenter test data no(1-{0})? ", __cnt);
+            Console.Write("Eenter test data no(1-{0})? ", __cnt);
+            Console.Out.Flush();
             if (!int.TryParse(Console.ReadLine(), out __cnt)) __cnt = 1;
             Console.WriteLine("Select/Default test data: {0}", __cnt);
         }
