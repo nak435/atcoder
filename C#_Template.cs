@@ -85,17 +85,32 @@ Console.WriteLine(
 );
 
  */
-// #define LOCAL_ENVIRONMENT
+//#define LOCAL_ENVIRONMENT
 using System;
-using System.Collections;
+using System.IO;
 using System.Text;
 class Program {
+    static int __cnt = 0;
+    static string __mark = "###";
     static void Main(string[] args) {
 #if LOCAL_ENVIRONMENT
+        StreamReader __sr = new StreamReader("stdin.txt");
+        string __str = __sr.ReadToEnd();
+        __sr.Close();
+        int __index = __str.IndexOf(__mark, 0);
+        while (__index != -1) {
+            __index = __str.IndexOf(__mark, __index + __mark.Length);
+            __cnt++;
+        }
+        if (__cnt > 0) {
+            Console.WriteLine("Eenter test data no(1-{0})? ", __cnt);
+            if (!int.TryParse(Console.ReadLine(), out __cnt)) __cnt = 1;
+            Console.WriteLine("Select/Default test data: {0}", __cnt);
+        }
         var stdin = new System.IO.StreamReader("stdin.txt");
-        System.Console.SetIn(stdin);
+        Console.SetIn(stdin);
 #endif
-        SimpleScanner sc = new SimpleScanner();
+        SimpleScanner sc = new SimpleScanner(__cnt);
         var a = sc.NextInt();
         int b = sc.NextInt(), c = sc.NextInt();
         var s = sc.NextString();
@@ -118,7 +133,8 @@ class Program {
                 .Repeat(4, w => w * w)
                 .Action(w => Console.WriteLine(w))
         );
-
+        long ans = 0;
+        Console.WriteLine(ans);
     } //Main
 
     //最大公約数
@@ -152,7 +168,7 @@ static Func<int> prime = (v) => {
     public class SimpleScanner {
         private int cnt;
         private string[] items;
-        public SimpleScanner() {
+        public SimpleScanner(int cnt = 0) {
             this.cnt = 0;
             var sb = new StringBuilder();
             var s = Console.ReadLine();
@@ -162,7 +178,12 @@ static Func<int> prime = (v) => {
             }
             this.items = sb.ToString().Split(' ');
 #if LOCAL_ENVIRONMENT
-    Console.Error.WriteLine("SimpleScanner.items: {0}" , this.items.ToStringA());
+            if (cnt > 0) {
+                int index = Array.IndexOf(this.items, __mark + cnt.ToString());
+                this.cnt = index + 1;
+            }
+            Console.Error.WriteLine("SimpleScanner.cnt: {0}", this.cnt);
+            Console.Error.WriteLine("SimpleScanner.items: {0}" , this.items.ToStringA());
 #endif
         }
         public void SetCnt(int n) { this.cnt = n; }
@@ -224,6 +245,12 @@ static Func<int> prime = (v) => {
     }
 }
 static class Extensions {
+    public static bool IsEven(this int value) {
+        return value % 2 == 0;
+    }
+    public static bool IsOdd(this int value) {
+        return value % 2 != 0;
+    }
     public static string ToStringA<T>(this T[] array, string separator = ", ", string braces = "[]") {
         string bL = braces.Length > 0 ? braces[0].ToString() : "";
         string bR = braces.Length > 1 ? braces[1].ToString() : "";
