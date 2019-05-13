@@ -78,6 +78,7 @@ var ch = string.ToCharArray(); //string->char[]
 string.Join(", ", str)
 Console.WriteLine("{0} {1}", a0, a1);
 Console.Error.WriteLine("{0} {1}", a0, a1);
+Console.WriteLine($"{ans}");
 
 Console.WriteLine(
     1.Calc(x => x * 2)
@@ -113,6 +114,9 @@ class Program {
         var stdin = new System.IO.StreamReader("stdin.txt");
         Console.SetIn(stdin);
 #endif
+// int N = int.Parse(Console.ReadLine());
+// int[] A = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
+// int[] B = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
         SimpleScanner sc = new SimpleScanner(__cnt);
         var a = sc.NextInt();
         int b = sc.NextInt(), c = sc.NextInt();
