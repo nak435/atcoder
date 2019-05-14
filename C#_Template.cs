@@ -78,6 +78,9 @@ var ch = string.ToCharArray(); //string->char[]
 string.Join(", ", str)
 Console.WriteLine("{0} {1}", a0, a1);
 Console.Error.WriteLine("{0} {1}", a0, a1);
+var formatted = $"({x}, {y})";
+var formatted = $"({12300:c}, {12300:n}, {12300,4:x})"; //same as string.Format
+System.IFormattable f = $"{x :c}, {x :n}";
 Console.WriteLine($"{ans}");
 
 Console.WriteLine(
