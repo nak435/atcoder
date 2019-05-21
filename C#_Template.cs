@@ -208,13 +208,14 @@ static Func<int> prime = (v) => {
             var sb = new StringBuilder();
             var s = Console.ReadLine();
             while (s != null) {
-                sb.Append(s + " ");
+                sb.Append(s);
+                sb.Append(" ");
                 s = Console.ReadLine();
             }
             this.items = sb.ToString().Split(' ');
 #if LOCAL_ENVIRONMENT
             if (cnt > 0) {
-                int index = Array.IndexOf(this.items, __mark + cnt.ToString());
+                int index = Array.IndexOf(this.items, $"{__mark}{cnt}");
                 this.cnt = index + 1;
             }
             Console.Error.WriteLine("SimpleScanner.cnt: {0}", this.cnt);
