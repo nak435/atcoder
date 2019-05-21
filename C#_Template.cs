@@ -175,6 +175,31 @@ static Func<int> prime = (v) => {
     return r;
 } //30=>2^1*3^1*5^1=>[[2,1],[3,1],[5,1]]
 */
+    public class Item {
+        public int to { get; set; }
+        public int cost { get; set; }
+        public Item(int to, int cost) {
+            this.to = to;
+            this.cost = cost;
+        }
+        public override string ToString() {
+            return $"[to:{this.to}, cost:{this.cost}]";
+        }
+    }
+    public class Coordinate {
+        public int t { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
+        public Coordinate(int t, int x, int y) {
+            this.t = t;
+            this.x = x;
+            this.y = y;
+        }
+        public override string ToString() {
+            return $"[t:{this.t}, x:{this.x}, y:{this.y}]";
+        }
+    }
+
     public class SimpleScanner {
         private int cnt;
         private string[] items;
@@ -306,4 +331,39 @@ public static class ChainExtensions {
     // All :: T -> (T -> U) -> (T, T -> U, U)
     public static Tuple<T, Func<T, U>, U> All<T, U>(this T a, Func<T, U> f)
     { return Tuple.Create(a, f, f(a)); }
+}
+
+public class UnionFind {
+    public int[] rnk, par;
+    public UnionFind(int n) {
+        this.rnk = new int[n];
+        this.par = new int[n];
+        for (var i = 0; i < n; i++) this.par[i] = i;
+    }
+    public int root(int x) {
+        if (this.par[x] == x) return x;
+        return this.par[x] = this.root(this.par[x]);
+    }
+    public void unite(int x, int y) {
+        var rx = this.root(x);
+        var ry = this.root(y);
+        if (rx == ry) return;
+
+        if (this.rnk[rx] < this.rnk[ry]) {
+            this.par[rx] = ry;
+        } else {
+            this.par[ry] = rx;
+            if (this.rnk[rx] == this.rnk[ry]) this.rnk[rx] += 1;
+        }
+    }
+    public bool same(int x, int y) {
+        var rx = this.root(x);
+        var ry = this.root(y);
+        return rx == ry;
+    }
+    public int size(int x) {
+        return this.rnk[this.root(x)];
+    }
+    public int find(int x) { return this.root(x); }
+    public void union(int x, int y) { this.unite(x, y); }
 }
