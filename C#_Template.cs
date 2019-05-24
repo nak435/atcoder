@@ -75,7 +75,7 @@ Array.Sort(array);
 Array.Reverse(array);
 int[][] array = new int[Y][X];
 var ch = string.ToCharArray(); //string->char[]
-string.Join(", ", str)
+String.Join(", ", string)
 Console.WriteLine("{0} {1}", a0, a1);
 Console.Error.WriteLine("{0} {1}", a0, a1);
 var formatted = $"({x}, {y})";
